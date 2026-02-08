@@ -30,7 +30,7 @@ Coffee Varka is a warm, welcoming coffee shop offering handcrafted drinks, fresh
 
 ## Live Demo
 
-[View Live Demo](YOUR_DEPLOYED_URL_HERE)
+[View Live Demo](https://dmracovit.github.io/PWeb/lab2/)
 
 ## Author
 
