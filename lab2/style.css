@@ -127,10 +127,14 @@ a {
 }
 
 .header__logo {
-  font-family: var(--font-heading);
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--color-dark);
+  display: flex;
+  align-items: center;
+}
+
+.header__logo-img {
+  height: 50px;
+  width: auto;
+  border-radius: 50%;
 }
 
 .header__menu {
