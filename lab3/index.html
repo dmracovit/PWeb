@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Coffee Varka — A cozy coffee shop with handcrafted drinks and warm atmosphere." />
+    <meta name="author" content="Dumitru Racovita" />
+    <title>Coffee Varka</title>
+    <link rel="stylesheet" href="reset.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              coffee: {
+                bg: '#FDF6EC',
+                'bg-alt': '#FFFAF3',
+                dark: '#3C2415',
+                accent: '#C07A45',
+                'accent-hover': '#A0612F',
+                secondary: '#E8D5B7',
+                text: '#5C4033',
+                'text-light': '#8B7355',
+              }
+            },
+            fontFamily: {
+              heading: ['Playfair Display', 'Georgia', 'serif'],
+              body: ['Lato', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            },
+            keyframes: {
+              'bounce-gentle': {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-12px)' },
+              },
+              'steam': {
+                '0%': { transform: 'translateY(0) scaleX(1)', opacity: '0.6' },
+                '50%': { transform: 'translateY(-8px) scaleX(1.2)', opacity: '0.3' },
+                '100%': { transform: 'translateY(-16px) scaleX(0.8)', opacity: '0' },
+              },
+              'slide-in': {
+                '0%': { transform: 'translateX(120px)', opacity: '0' },
+                '100%': { transform: 'translateX(0)', opacity: '1' },
+              },
+              'wiggle': {
+                '0%, 100%': { transform: 'rotate(0deg)' },
+                '25%': { transform: 'rotate(-8deg)' },
+                '75%': { transform: 'rotate(8deg)' },
+              }
+            },
+            animation: {
+              'bounce-gentle': 'bounce-gentle 2s ease-in-out infinite',
+              'steam': 'steam 2s ease-in-out infinite',
+              'slide-in': 'slide-in 0.6s ease-out forwards',
+              'wiggle': 'wiggle 1s ease-in-out infinite',
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+    <style>
+      html { scroll-behavior: smooth; }
+      body { font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif; }
+
+      /* Mascot tooltip */
+      .mascot-tooltip {
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+      }
+      .mascot-wrapper:hover .mascot-tooltip {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Mascot hidden by default, shown via JS after delay */
+      .mascot-wrapper {
+        opacity: 0;
+        transform: translateX(120px);
+      }
+      .mascot-wrapper.visible {
+        animation: slide-in 0.6s ease-out forwards;
+      }
+
+      /* Gallery hover zoom */
+      .gallery-img {
+        transition: transform 0.3s ease;
+      }
+      .gallery-item:hover .gallery-img {
+        transform: scale(1.05);
+      }
+
+      /* Smooth link underline */
+      .nav-link {
+        position: relative;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #C07A45;
+        transition: width 0.3s ease;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body class="bg-coffee-bg text-coffee-text leading-relaxed text-base">
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 bg-coffee-bg border-b border-coffee-secondary">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between py-4">
+        <a href="#" class="flex items-center">
+          <img src="screenshots/logo.jpg" alt="Coffee Varka logo" class="h-12 w-auto rounded-full" />
+        </a>
+        <nav id="nav-menu" class="hidden md:block">
+          <ul class="flex gap-8">
+            <li><a href="#hero" class="nav-link text-sm text-coffee-text hover:text-coffee-accent transition-colors">Home</a></li>
+            <li><a href="#about" class="nav-link text-sm text-coffee-text hover:text-coffee-accent transition-colors">About</a></li>
+            <li><a href="#menu" class="nav-link text-sm text-coffee-text hover:text-coffee-accent transition-colors">Menu</a></li>
+            <li><a href="#gallery" class="nav-link text-sm text-coffee-text hover:text-coffee-accent transition-colors">Gallery</a></li>
+            <li><a href="#contact" class="nav-link text-sm text-coffee-text hover:text-coffee-accent transition-colors">Contact</a></li>
+          </ul>
+        </nav>
+        <!-- Burger button (mobile) -->
+        <button id="burger-btn" class="md:hidden flex flex-col gap-1.5 p-1 bg-transparent border-none cursor-pointer" aria-label="Toggle menu">
+          <span class="block w-6 h-0.5 bg-coffee-dark transition-all duration-300" id="burger-line-1"></span>
+          <span class="block w-6 h-0.5 bg-coffee-dark transition-all duration-300" id="burger-line-2"></span>
+          <span class="block w-6 h-0.5 bg-coffee-dark transition-all duration-300" id="burger-line-3"></span>
+        </button>
+      </div>
+      <!-- Mobile dropdown menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-coffee-bg border-b border-coffee-secondary px-6 pb-6">
+        <ul class="flex flex-col gap-4 items-center">
+          <li><a href="#hero" class="text-coffee-text hover:text-coffee-accent transition-colors mobile-nav-link">Home</a></li>
+          <li><a href="#about" class="text-coffee-text hover:text-coffee-accent transition-colors mobile-nav-link">About</a></li>
+          <li><a href="#menu" class="text-coffee-text hover:text-coffee-accent transition-colors mobile-nav-link">Menu</a></li>
+          <li><a href="#gallery" class="text-coffee-text hover:text-coffee-accent transition-colors mobile-nav-link">Gallery</a></li>
+          <li><a href="#contact" class="text-coffee-text hover:text-coffee-accent transition-colors mobile-nav-link">Contact</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section id="hero" class="py-20 md:py-28 lg:py-32 bg-gradient-to-br from-coffee-bg to-coffee-secondary">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-coffee-dark leading-tight mb-6">
+            Where Every Cup<br />Tells a Story
+          </h1>
+          <p class="text-lg sm:text-xl text-coffee-text-light mb-10 leading-relaxed">
+            Handcrafted coffee, warm pastries, and a cozy corner just for you.
+          </p>
+          <div class="flex gap-4 justify-center flex-wrap">
+            <a href="#menu" class="inline-block px-8 py-3.5 rounded-lg font-bold text-white bg-coffee-accent hover:bg-coffee-accent-hover transition-all hover:-translate-y-0.5">
+              Explore Our Menu
+            </a>
+            <a href="#contact" class="inline-block px-8 py-3.5 rounded-lg font-bold text-coffee-accent border-2 border-coffee-accent hover:bg-coffee-accent hover:text-white transition-all hover:-translate-y-0.5">
+              Visit Us
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mobile-only: Quick Order CTA Section -->
+      <section class="block md:hidden bg-coffee-accent py-6 px-4 text-center">
+        <h2 class="font-heading text-xl font-bold text-white mb-2">Order on the Go!</h2>
+        <p class="text-coffee-secondary text-sm mb-4">Skip the line — order ahead and pick up your favorite brew.</p>
+        <a href="#menu" class="inline-block px-6 py-2.5 rounded-lg font-bold text-coffee-accent bg-white hover:bg-coffee-bg transition-colors">
+          Quick Order
+        </a>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="py-16 md:py-24 bg-coffee-bg-alt">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+            <div>
+              <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark mb-4 text-center md:text-left">Our Story</h2>
+              <p class="text-base sm:text-lg text-coffee-text leading-relaxed mb-4">
+                Coffee Varka was born from a simple idea — that great coffee deserves a great atmosphere.
+                Since 2020, we've been roasting our own beans, perfecting our recipes, and creating a space
+                where everyone feels at home.
+              </p>
+              <p class="text-base sm:text-lg text-coffee-text leading-relaxed">
+                Every cup we serve is crafted with care, using ethically sourced beans from small farms
+                around the world. Whether you're here for a quick espresso or a long afternoon with a book,
+                we're glad you stopped by.
+              </p>
+            </div>
+            <div>
+              <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=400&fit=crop" alt="Cozy interior of Coffee Varka" class="rounded-xl object-cover w-full h-64 sm:h-80 md:h-96" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Menu Section -->
+      <section id="menu" class="py-16 md:py-24 bg-coffee-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-4">Our Menu</h2>
+          <p class="text-base sm:text-lg text-coffee-text-light text-center mb-12">From classic espresso to signature blends — find your perfect cup.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
+            <div class="bg-white rounded-xl overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
+              <img src="https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400&h=300&fit=crop" alt="Espresso" class="w-full h-48 object-cover" />
+              <div class="p-5">
+                <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Espresso</h3>
+                <p class="text-sm text-coffee-text-light mb-3 leading-relaxed">Rich, bold, and perfectly extracted. The heart of every great coffee.</p>
+                <span class="font-heading text-xl font-bold text-coffee-accent">$3.50</span>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
+              <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=300&fit=crop" alt="Cappuccino" class="w-full h-48 object-cover" />
+              <div class="p-5">
+                <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Cappuccino</h3>
+                <p class="text-sm text-coffee-text-light mb-3 leading-relaxed">Velvety steamed milk meets a double shot of our house espresso.</p>
+                <span class="font-heading text-xl font-bold text-coffee-accent">$4.50</span>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
+              <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop" alt="Caramel Latte" class="w-full h-48 object-cover" />
+              <div class="p-5">
+                <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Caramel Latte</h3>
+                <p class="text-sm text-coffee-text-light mb-3 leading-relaxed">Smooth espresso with steamed milk and a drizzle of house-made caramel.</p>
+                <span class="font-heading text-xl font-bold text-coffee-accent">$5.00</span>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
+              <img src="https://images.unsplash.com/photo-1530610476181-d83430b64dcd?w=400&h=300&fit=crop" alt="Butter Croissant" class="w-full h-48 object-cover" />
+              <div class="p-5">
+                <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Butter Croissant</h3>
+                <p class="text-sm text-coffee-text-light mb-3 leading-relaxed">Flaky, golden, and baked fresh every morning. Perfect with any coffee.</p>
+                <span class="font-heading text-xl font-bold text-coffee-accent">$3.00</span>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
+              <img src="https://images.unsplash.com/photo-1530373239216-42518e6b4063?w=400&h=300&fit=crop" alt="Matcha Latte" class="w-full h-48 object-cover" />
+              <div class="p-5">
+                <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Matcha Latte</h3>
+                <p class="text-sm text-coffee-text-light mb-3 leading-relaxed">Ceremonial-grade matcha whisked with oat milk for a vibrant, earthy treat.</p>
+                <span class="font-heading text-xl font-bold text-coffee-accent">$5.50</span>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
+              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop" alt="Cold Brew" class="w-full h-48 object-cover" />
+              <div class="p-5">
+                <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Cold Brew</h3>
+                <p class="text-sm text-coffee-text-light mb-3 leading-relaxed">Slow-steeped for 18 hours. Smooth, refreshing, and never bitter.</p>
+                <span class="font-heading text-xl font-bold text-coffee-accent">$4.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials Section -->
+      <section id="testimonials" class="py-16 md:py-24 bg-coffee-secondary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-12">What Our Guests Say</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
+            <div class="bg-white rounded-xl p-8 flex flex-col justify-between">
+              <p class="text-base italic text-coffee-text leading-relaxed mb-6">"The best cappuccino in town. I come here every morning before work — it's become my little ritual."</p>
+              <div>
+                <span class="block font-bold text-coffee-dark">Maria S.</span>
+                <span class="text-sm text-coffee-text-light">Regular since 2021</span>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl p-8 flex flex-col justify-between">
+              <p class="text-base italic text-coffee-text leading-relaxed mb-6">"Such a warm and welcoming place. The caramel latte is to die for, and the croissants are always fresh."</p>
+              <div>
+                <span class="block font-bold text-coffee-dark">Alex P.</span>
+                <span class="text-sm text-coffee-text-light">Coffee Enthusiast</span>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl p-8 flex flex-col justify-between sm:col-span-2 lg:col-span-1">
+              <p class="text-base italic text-coffee-text leading-relaxed mb-6">"I brought my laptop to work here and stayed the whole day. Great Wi-Fi, cozy vibe, and endless refills."</p>
+              <div>
+                <span class="block font-bold text-coffee-dark">Daniel R.</span>
+                <span class="text-sm text-coffee-text-light">Freelance Designer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <section id="gallery" class="py-16 md:py-24 bg-coffee-bg-alt">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-4">Our Atmosphere</h2>
+          <p class="text-base sm:text-lg text-coffee-text-light text-center mb-12">Take a peek inside Coffee Varka.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="gallery-item rounded-xl overflow-hidden sm:col-span-2">
+              <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&h=500&fit=crop" alt="Coffee shop interior with warm lighting" class="gallery-img w-full h-48 sm:h-64 lg:h-72 object-cover" />
+            </div>
+            <div class="gallery-item rounded-xl overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=400&fit=crop" alt="Latte art close-up" class="gallery-img w-full h-48 sm:h-64 lg:h-72 object-cover" />
+            </div>
+            <div class="gallery-item rounded-xl overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=400&h=400&fit=crop" alt="Fresh pastries display" class="gallery-img w-full h-48 sm:h-64 object-cover" />
+            </div>
+            <div class="gallery-item rounded-xl overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=400&fit=crop" alt="Barista preparing coffee" class="gallery-img w-full h-48 sm:h-64 object-cover" />
+            </div>
+            <div class="gallery-item rounded-xl overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop" alt="Coffee beans and cup" class="gallery-img w-full h-48 sm:h-64 object-cover" />
+            </div>
+            <div class="gallery-item rounded-xl overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?w=400&h=400&fit=crop" alt="Morning coffee and book" class="gallery-img w-full h-48 sm:h-64 object-cover" />
+            </div>
+            <div class="gallery-item rounded-xl overflow-hidden sm:col-span-2">
+              <img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800&h=500&fit=crop" alt="Cozy seating area" class="gallery-img w-full h-48 sm:h-64 lg:h-72 object-cover" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mobile-only: Download App Banner -->
+      <section class="block md:hidden bg-coffee-dark py-8 px-4 text-center">
+        <p class="text-coffee-secondary text-sm mb-1">Love Coffee Varka?</p>
+        <h2 class="font-heading text-2xl font-bold text-white mb-3">Get Our App</h2>
+        <p class="text-coffee-secondary text-sm mb-5">Earn rewards, track orders, and never miss a deal.</p>
+        <a href="#" class="inline-block px-6 py-2.5 rounded-lg font-bold text-white bg-coffee-accent hover:bg-coffee-accent-hover transition-colors">
+          Download Now
+        </a>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="py-16 md:py-24 bg-coffee-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-4">Get In Touch</h2>
+          <p class="text-base sm:text-lg text-coffee-text-light text-center mb-12">We'd love to hear from you. Stop by or drop us a message.</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
+            <form class="space-y-5" action="#" method="POST">
+              <div>
+                <label for="name" class="block text-sm font-bold text-coffee-dark mb-2">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required class="w-full px-4 py-3 border border-coffee-secondary rounded-lg font-body text-base text-coffee-text bg-white focus:outline-none focus:border-coffee-accent transition-colors" />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-bold text-coffee-dark mb-2">Email</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required class="w-full px-4 py-3 border border-coffee-secondary rounded-lg font-body text-base text-coffee-text bg-white focus:outline-none focus:border-coffee-accent transition-colors" />
+              </div>
+              <div>
+                <label for="message" class="block text-sm font-bold text-coffee-dark mb-2">Message</label>
+                <textarea id="message" name="message" placeholder="Tell us what's on your mind..." rows="5" required class="w-full px-4 py-3 border border-coffee-secondary rounded-lg font-body text-base text-coffee-text bg-white focus:outline-none focus:border-coffee-accent transition-colors resize-y"></textarea>
+              </div>
+              <button type="submit" class="inline-block px-8 py-3.5 rounded-lg font-bold text-white bg-coffee-accent hover:bg-coffee-accent-hover transition-all hover:-translate-y-0.5 border-none cursor-pointer">
+                Send Message
+              </button>
+            </form>
+            <div class="flex flex-col gap-8 pt-0 md:pt-2">
+              <div>
+                <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Visit Us</h3>
+                <p class="text-base text-coffee-text leading-relaxed">42 Brew Street</p>
+                <p class="text-base text-coffee-text leading-relaxed">Chisinau, Moldova</p>
+              </div>
+              <div>
+                <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Opening Hours</h3>
+                <p class="text-base text-coffee-text leading-relaxed">Mon – Fri: 7:00 – 21:00</p>
+                <p class="text-base text-coffee-text leading-relaxed">Sat – Sun: 8:00 – 22:00</p>
+              </div>
+              <div>
+                <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Contact</h3>
+                <p class="text-base text-coffee-text leading-relaxed">hello@coffeevarka.md</p>
+                <p class="text-base text-coffee-text leading-relaxed">+373 781 22 171</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-coffee-dark py-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+        <p class="text-coffee-secondary text-sm">&copy; 2025 Coffee Varka. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="https://www.instagram.com/coffeevarka_md/" target="_blank" class="text-coffee-secondary text-sm hover:text-coffee-accent transition-colors">Instagram</a>
+          <a href="#" class="text-coffee-secondary text-sm hover:text-coffee-accent transition-colors">Facebook</a>
+          <a href="#" class="text-coffee-secondary text-sm hover:text-coffee-accent transition-colors">TikTok</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Mobile-only: Sticky CTA Bar -->
+    <div class="fixed bottom-0 left-0 right-0 z-40 bg-coffee-dark/95 backdrop-blur-sm py-3 px-4 flex items-center justify-between md:hidden">
+      <span class="text-white text-sm font-bold">Craving coffee?</span>
+      <a href="#menu" class="px-5 py-2 rounded-lg font-bold text-sm text-white bg-coffee-accent hover:bg-coffee-accent-hover transition-colors">
+        Order Now
+      </a>
+    </div>
+
+    <!-- Coffee Cup Mascot -->
+    <div id="mascot" class="mascot-wrapper fixed bottom-20 right-4 md:bottom-8 md:right-8 z-50 cursor-pointer">
+      <div class="relative">
+        <!-- Tooltip -->
+        <div class="mascot-tooltip absolute bottom-full right-0 mb-3 bg-white rounded-xl shadow-lg px-4 py-3 w-52 text-center border border-coffee-secondary">
+          <p class="text-sm text-coffee-dark font-bold mb-1">Hey there!</p>
+          <p class="text-xs text-coffee-text-light">Try our Caramel Latte — it's today's special!</p>
+          <div class="absolute -bottom-2 right-6 w-4 h-4 bg-white border-b border-r border-coffee-secondary rotate-45"></div>
+        </div>
+        <!-- SVG Mascot: Friendly Coffee Cup -->
+        <svg class="animate-bounce-gentle" width="80" height="100" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Steam -->
+          <path class="animate-steam" d="M28 28 Q30 20 28 12" stroke="#C07A45" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5" />
+          <path class="animate-steam" style="animation-delay: 0.4s" d="M38 26 Q40 18 38 10" stroke="#C07A45" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5" />
+          <path class="animate-steam" style="animation-delay: 0.8s" d="M48 28 Q50 20 48 12" stroke="#C07A45" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5" />
+          <!-- Cup body -->
+          <rect x="14" y="32" width="48" height="50" rx="8" fill="#C07A45" />
+          <!-- Cup inner (coffee) -->
+          <rect x="18" y="36" width="40" height="20" rx="4" fill="#5C4033" />
+          <!-- Cup handle -->
+          <path d="M62 46 Q74 46 74 58 Q74 70 62 70" stroke="#C07A45" stroke-width="5" fill="none" stroke-linecap="round" />
+          <!-- Face: Eyes -->
+          <circle cx="30" cy="62" r="3.5" fill="#FDF6EC" />
+          <circle cx="46" cy="62" r="3.5" fill="#FDF6EC" />
+          <circle cx="31" cy="62" r="1.8" fill="#3C2415" />
+          <circle cx="47" cy="62" r="1.8" fill="#3C2415" />
+          <!-- Face: Smile -->
+          <path d="M32 72 Q38 78 44 72" stroke="#FDF6EC" stroke-width="2.5" stroke-linecap="round" fill="none" />
+          <!-- Blush -->
+          <ellipse cx="24" cy="68" rx="4" ry="2.5" fill="#E8A87C" opacity="0.5" />
+          <ellipse cx="52" cy="68" rx="4" ry="2.5" fill="#E8A87C" opacity="0.5" />
+          <!-- Cup base / saucer -->
+          <ellipse cx="38" cy="86" rx="30" ry="6" fill="#A0612F" />
+        </svg>
+      </div>
+    </div>
+
+    <script>
+      // Burger menu toggle
+      const burgerBtn = document.getElementById('burger-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const line1 = document.getElementById('burger-line-1');
+      const line2 = document.getElementById('burger-line-2');
+      const line3 = document.getElementById('burger-line-3');
+      let menuOpen = false;
+
+      burgerBtn.addEventListener('click', () => {
+        menuOpen = !menuOpen;
+        mobileMenu.classList.toggle('hidden');
+        if (menuOpen) {
+          line1.style.transform = 'rotate(45deg) translate(4px, 4px)';
+          line2.style.opacity = '0';
+          line3.style.transform = 'rotate(-45deg) translate(4px, -4px)';
+        } else {
+          line1.style.transform = '';
+          line2.style.opacity = '1';
+          line3.style.transform = '';
+        }
+      });
+
+      // Close mobile menu when clicking a link
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          menuOpen = false;
+          line1.style.transform = '';
+          line2.style.opacity = '1';
+          line3.style.transform = '';
+        });
+      });
+
+      // Mascot: appear after 3 seconds
+      const mascot = document.getElementById('mascot');
+      setTimeout(() => {
+        mascot.classList.add('visible');
+      }, 3000);
+    </script>
+
+  </body>
+</html>
