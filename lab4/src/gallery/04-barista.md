@@ -1,0 +1,6 @@
+---
+alt: Barista preparing coffee
+image: https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=400&fit=crop
+wide: false
+order: 4
+---

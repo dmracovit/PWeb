@@ -3,6 +3,17 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/admin");
 
+  // Sort collections by "order" field
+  eleventyConfig.addCollection("menu", (collection) =>
+    collection.getFilteredByTag("menu").sort((a, b) => a.data.order - b.data.order)
+  );
+  eleventyConfig.addCollection("testimonials", (collection) =>
+    collection.getFilteredByTag("testimonials").sort((a, b) => a.data.order - b.data.order)
+  );
+  eleventyConfig.addCollection("gallery", (collection) =>
+    collection.getFilteredByTag("gallery").sort((a, b) => a.data.order - b.data.order)
+  );
+
   return {
     dir: {
       input: "src",
