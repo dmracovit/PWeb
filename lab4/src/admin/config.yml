@@ -1,0 +1,55 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "src/assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "menu"
+    label: "Menu Items"
+    folder: "src/menu"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Price", name: "price", widget: "string" }
+      - { label: "Image URL", name: "image", widget: "string" }
+      - { label: "Order", name: "order", widget: "number" }
+      - { label: "Tags", name: "tags", widget: "hidden", default: "menu" }
+
+  - name: "testimonials"
+    label: "Testimonials"
+    folder: "src/testimonials"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Author", name: "author", widget: "string" }
+      - { label: "Role", name: "role", widget: "string" }
+      - { label: "Quote", name: "quote", widget: "text" }
+      - { label: "Order", name: "order", widget: "number" }
+      - { label: "Tags", name: "tags", widget: "hidden", default: "testimonials" }
+
+  - name: "gallery"
+    label: "Gallery"
+    folder: "src/gallery"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Alt Text", name: "alt", widget: "string" }
+      - { label: "Image URL", name: "image", widget: "string" }
+      - { label: "Wide (spans 2 columns)", name: "wide", widget: "boolean", default: false }
+      - { label: "Order", name: "order", widget: "number" }
+      - { label: "Tags", name: "tags", widget: "hidden", default: "gallery" }
+
+  - name: "site"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "settings"
+        file: "src/_data/site.json"
+        fields:
+          - { label: "Site Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Year", name: "year", widget: "string" }
