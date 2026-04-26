@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/dmracovit/PWeb/lab5/internal/cache"
 	"github.com/dmracovit/PWeb/lab5/internal/client"
 	"github.com/dmracovit/PWeb/lab5/internal/render"
 	"github.com/dmracovit/PWeb/lab5/internal/search"
@@ -63,7 +64,7 @@ func main() {
 }
 
 func runFetch(rawURL string, verbose, noCache bool) {
-	resp, err := client.Get(rawURL, client.Options{Verbose: verbose})
+	resp, err := fetch(rawURL, client.Options{Verbose: verbose}, noCache)
 	if err != nil {
 		fail("fetch failed: " + err.Error())
 	}
@@ -81,6 +82,26 @@ func runFetch(rawURL string, verbose, noCache bool) {
 	default:
 		os.Stdout.Write(resp.Body)
 	}
+}
+
+// fetch dispatches to the cache-aware fetcher unless --no-cache asked
+// us to skip it. Cache failures (e.g. unwritable home dir) degrade to a
+// plain client.Get rather than aborting the request.
+func fetch(rawURL string, opts client.Options, noCache bool) (*client.Response, error) {
+	if noCache {
+		resp, err := client.Get(rawURL, opts)
+		return resp, err
+	}
+	c, err := cache.New()
+	if err != nil {
+		if opts.Verbose {
+			fmt.Fprintf(os.Stderr, "[cache disabled] %v\n", err)
+		}
+		resp, err := client.Get(rawURL, opts)
+		return resp, err
+	}
+	resp, _, err := cache.Fetch(c, rawURL, opts)
+	return resp, err
 }
 
 func runSearch(query string, verbose, noCache bool) {

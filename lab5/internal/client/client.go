@@ -14,8 +14,13 @@ import (
 )
 
 const (
-	defaultAccept = "application/json, text/html;q=0.9, */*;q=0.5"
-	maxRedirects  = 10
+	// DefaultAccept advertises both JSON and HTML so servers that support
+	// content negotiation can pick the better representation. We expose
+	// it so the cache layer can use the same Accept value when computing
+	// keys.
+	DefaultAccept = "application/json, text/html;q=0.9, */*;q=0.5"
+
+	maxRedirects = 10
 )
 
 type Options struct {
@@ -68,7 +73,7 @@ func doGet(rawURL string, opts Options) (*Response, error) {
 
 	accept := opts.Accept
 	if accept == "" {
-		accept = defaultAccept
+		accept = DefaultAccept
 	}
 
 	req := newRequest(u, accept, opts.ExtraHeaders)
