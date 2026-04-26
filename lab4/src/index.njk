@@ -7,50 +7,48 @@ title: Coffee Varka
 <section id="hero" class="py-20 md:py-28 lg:py-32 bg-gradient-to-br from-coffee-bg to-coffee-secondary">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
     <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-coffee-dark leading-tight mb-6">
-      Where Every Cup<br />Tells a Story
+      {{ site.hero.heading_line1 }}<br />{{ site.hero.heading_line2 }}
     </h1>
     <p class="text-lg sm:text-xl text-coffee-text-light mb-10 leading-relaxed">
-      Handcrafted coffee, warm pastries, and a cozy corner just for you.
+      {{ site.hero.subheading }}
     </p>
     <div class="flex gap-4 justify-center flex-wrap">
-      <a href="#menu" class="inline-block px-8 py-3.5 rounded-lg font-bold text-white bg-coffee-accent hover:bg-coffee-accent-hover transition-all hover:-translate-y-0.5">
-        Explore Our Menu
+      <a href="{{ site.hero.primary_cta_link }}" class="inline-block px-8 py-3.5 rounded-lg font-bold text-white bg-coffee-accent hover:bg-coffee-accent-hover transition-all hover:-translate-y-0.5">
+        {{ site.hero.primary_cta_label }}
       </a>
-      <a href="#contact" class="inline-block px-8 py-3.5 rounded-lg font-bold text-coffee-accent border-2 border-coffee-accent hover:bg-coffee-accent hover:text-white transition-all hover:-translate-y-0.5">
-        Visit Us
+      <a href="{{ site.hero.secondary_cta_link }}" class="inline-block px-8 py-3.5 rounded-lg font-bold text-coffee-accent border-2 border-coffee-accent hover:bg-coffee-accent hover:text-white transition-all hover:-translate-y-0.5">
+        {{ site.hero.secondary_cta_label }}
       </a>
     </div>
   </div>
 </section>
 
+{% if site.mobile_cta.quick_order.enabled %}
 <!-- Mobile-only: Quick Order CTA -->
 <section class="block md:hidden bg-coffee-accent py-6 px-4 text-center">
-  <h2 class="font-heading text-xl font-bold text-white mb-2">Order on the Go!</h2>
-  <p class="text-coffee-secondary text-sm mb-4">Skip the line — order ahead and pick up your favorite brew.</p>
-  <a href="#menu" class="inline-block px-6 py-2.5 rounded-lg font-bold text-coffee-accent bg-white hover:bg-coffee-bg transition-colors">
-    Quick Order
+  <h2 class="font-heading text-xl font-bold text-white mb-2">{{ site.mobile_cta.quick_order.heading }}</h2>
+  <p class="text-coffee-secondary text-sm mb-4">{{ site.mobile_cta.quick_order.subheading }}</p>
+  <a href="{{ site.mobile_cta.quick_order.button_link }}" class="inline-block px-6 py-2.5 rounded-lg font-bold text-coffee-accent bg-white hover:bg-coffee-bg transition-colors">
+    {{ site.mobile_cta.quick_order.button_label }}
   </a>
 </section>
+{% endif %}
 
 <!-- About Section -->
 <section id="about" class="py-16 md:py-24 bg-coffee-bg-alt">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
       <div>
-        <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark mb-4 text-center md:text-left">Our Story</h2>
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark mb-4 text-center md:text-left">{{ site.about.heading }}</h2>
         <p class="text-base sm:text-lg text-coffee-text leading-relaxed mb-4">
-          Coffee Varka was born from a simple idea — that great coffee deserves a great atmosphere.
-          Since 2020, we've been roasting our own beans, perfecting our recipes, and creating a space
-          where everyone feels at home.
+          {{ site.about.paragraph1 }}
         </p>
         <p class="text-base sm:text-lg text-coffee-text leading-relaxed">
-          Every cup we serve is crafted with care, using ethically sourced beans from small farms
-          around the world. Whether you're here for a quick espresso or a long afternoon with a book,
-          we're glad you stopped by.
+          {{ site.about.paragraph2 }}
         </p>
       </div>
       <div>
-        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=400&fit=crop" alt="Cozy interior of Coffee Varka" class="rounded-xl object-cover w-full h-64 sm:h-80 md:h-96" />
+        <img src="{{ site.about.image }}" alt="{{ site.about.image_alt }}" class="rounded-xl object-cover w-full h-64 sm:h-80 md:h-96" />
       </div>
     </div>
   </div>
@@ -59,8 +57,8 @@ title: Coffee Varka
 <!-- Menu Section -->
 <section id="menu" class="py-16 md:py-24 bg-coffee-bg">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-4">Our Menu</h2>
-    <p class="text-base sm:text-lg text-coffee-text-light text-center mb-12">From classic espresso to signature blends — find your perfect cup.</p>
+    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-4">{{ site.menu_section.heading }}</h2>
+    <p class="text-base sm:text-lg text-coffee-text-light text-center mb-12">{{ site.menu_section.subheading }}</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
       {% for item in collections.menu %}
       <div class="bg-white rounded-xl overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
@@ -79,7 +77,7 @@ title: Coffee Varka
 <!-- Testimonials Section -->
 <section id="testimonials" class="py-16 md:py-24 bg-coffee-secondary">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-12">What Our Guests Say</h2>
+    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-12">{{ site.testimonials_section.heading }}</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
       {% for item in collections.testimonials %}
       <div class="bg-white rounded-xl p-8 flex flex-col justify-between {% if loop.last %}sm:col-span-2 lg:col-span-1{% endif %}">
@@ -97,8 +95,8 @@ title: Coffee Varka
 <!-- Gallery Section -->
 <section id="gallery" class="py-16 md:py-24 bg-coffee-bg-alt">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-4">Our Atmosphere</h2>
-    <p class="text-base sm:text-lg text-coffee-text-light text-center mb-12">Take a peek inside Coffee Varka.</p>
+    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-4">{{ site.gallery_section.heading }}</h2>
+    <p class="text-base sm:text-lg text-coffee-text-light text-center mb-12">{{ site.gallery_section.subheading }}</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {% for item in collections.gallery %}
       <div class="gallery-item rounded-xl overflow-hidden {% if item.data.wide %}sm:col-span-2{% endif %}">
@@ -109,21 +107,23 @@ title: Coffee Varka
   </div>
 </section>
 
+{% if site.mobile_cta.download_app.enabled %}
 <!-- Mobile-only: Download App Banner -->
 <section class="block md:hidden bg-coffee-dark py-8 px-4 text-center">
-  <p class="text-coffee-secondary text-sm mb-1">Love Coffee Varka?</p>
-  <h2 class="font-heading text-2xl font-bold text-white mb-3">Get Our App</h2>
-  <p class="text-coffee-secondary text-sm mb-5">Earn rewards, track orders, and never miss a deal.</p>
-  <a href="#" class="inline-block px-6 py-2.5 rounded-lg font-bold text-white bg-coffee-accent hover:bg-coffee-accent-hover transition-colors">
-    Download Now
+  <p class="text-coffee-secondary text-sm mb-1">{{ site.mobile_cta.download_app.tagline }}</p>
+  <h2 class="font-heading text-2xl font-bold text-white mb-3">{{ site.mobile_cta.download_app.heading }}</h2>
+  <p class="text-coffee-secondary text-sm mb-5">{{ site.mobile_cta.download_app.subheading }}</p>
+  <a href="{{ site.mobile_cta.download_app.button_link }}" class="inline-block px-6 py-2.5 rounded-lg font-bold text-white bg-coffee-accent hover:bg-coffee-accent-hover transition-colors">
+    {{ site.mobile_cta.download_app.button_label }}
   </a>
 </section>
+{% endif %}
 
 <!-- Contact Section -->
 <section id="contact" class="py-16 md:py-24 bg-coffee-bg">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-4">Get In Touch</h2>
-    <p class="text-base sm:text-lg text-coffee-text-light text-center mb-12">We'd love to hear from you. Stop by or drop us a message.</p>
+    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-coffee-dark text-center mb-4">{{ site.contact.heading }}</h2>
+    <p class="text-base sm:text-lg text-coffee-text-light text-center mb-12">{{ site.contact.subheading }}</p>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
       <form class="space-y-5" action="#" method="POST">
         <div>
@@ -139,24 +139,24 @@ title: Coffee Varka
           <textarea id="message" name="message" placeholder="Tell us what's on your mind..." rows="5" required class="w-full px-4 py-3 border border-coffee-secondary rounded-lg font-body text-base text-coffee-text bg-white focus:outline-none focus:border-coffee-accent transition-colors resize-y"></textarea>
         </div>
         <button type="submit" class="inline-block px-8 py-3.5 rounded-lg font-bold text-white bg-coffee-accent hover:bg-coffee-accent-hover transition-all hover:-translate-y-0.5 border-none cursor-pointer">
-          Send Message
+          {{ site.contact.form_button_label }}
         </button>
       </form>
       <div class="flex flex-col gap-8 pt-0 md:pt-2">
         <div>
           <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Visit Us</h3>
-          <p class="text-base text-coffee-text leading-relaxed">42 Brew Street</p>
-          <p class="text-base text-coffee-text leading-relaxed">Chisinau, Moldova</p>
+          <p class="text-base text-coffee-text leading-relaxed">{{ site.contact.address_line1 }}</p>
+          <p class="text-base text-coffee-text leading-relaxed">{{ site.contact.address_line2 }}</p>
         </div>
         <div>
           <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Opening Hours</h3>
-          <p class="text-base text-coffee-text leading-relaxed">Mon – Fri: 7:00 – 21:00</p>
-          <p class="text-base text-coffee-text leading-relaxed">Sat – Sun: 8:00 – 22:00</p>
+          <p class="text-base text-coffee-text leading-relaxed">{{ site.contact.hours_weekday }}</p>
+          <p class="text-base text-coffee-text leading-relaxed">{{ site.contact.hours_weekend }}</p>
         </div>
         <div>
           <h3 class="font-heading text-xl font-semibold text-coffee-dark mb-2">Contact</h3>
-          <p class="text-base text-coffee-text leading-relaxed">hello@coffeevarka.md</p>
-          <p class="text-base text-coffee-text leading-relaxed">+373 781 22 171</p>
+          <p class="text-base text-coffee-text leading-relaxed">{{ site.contact.email }}</p>
+          <p class="text-base text-coffee-text leading-relaxed">{{ site.contact.phone }}</p>
         </div>
       </div>
     </div>

@@ -1,5 +1,89 @@
 {
   "title": "Coffee Varka",
   "description": "A cozy coffee shop with handcrafted drinks and warm atmosphere.",
-  "year": "2025"
+  "author": "Dumitru Racovita",
+  "year": "2025",
+  "logo": "/assets/images/logo.jpg",
+  "nav_links": [
+    { "label": "Home", "href": "/#hero" },
+    { "label": "About", "href": "/#about" },
+    { "label": "Menu", "href": "/#menu" },
+    { "label": "Gallery", "href": "/#gallery" },
+    { "label": "Contact", "href": "/#contact" }
+  ],
+  "theme": {
+    "accent": "#C07A45",
+    "accent_hover": "#A0612F"
+  },
+  "hero": {
+    "heading_line1": "Where Every Cup",
+    "heading_line2": "Tells a Story",
+    "subheading": "Handcrafted coffee, warm pastries, and a cozy corner just for you.",
+    "primary_cta_label": "Explore Our Menu",
+    "primary_cta_link": "#menu",
+    "secondary_cta_label": "Visit Us",
+    "secondary_cta_link": "#contact"
+  },
+  "about": {
+    "heading": "Our Story",
+    "paragraph1": "Coffee Varka was born from a simple idea — that great coffee deserves a great atmosphere. Since 2020, we've been roasting our own beans, perfecting our recipes, and creating a space where everyone feels at home.",
+    "paragraph2": "Every cup we serve is crafted with care, using ethically sourced beans from small farms around the world. Whether you're here for a quick espresso or a long afternoon with a book, we're glad you stopped by.",
+    "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=400&fit=crop",
+    "image_alt": "Cozy interior of Coffee Varka"
+  },
+  "menu_section": {
+    "heading": "Our Menu",
+    "subheading": "From classic espresso to signature blends — find your perfect cup."
+  },
+  "testimonials_section": {
+    "heading": "What Our Guests Say"
+  },
+  "gallery_section": {
+    "heading": "Our Atmosphere",
+    "subheading": "Take a peek inside Coffee Varka."
+  },
+  "contact": {
+    "heading": "Get In Touch",
+    "subheading": "We'd love to hear from you. Stop by or drop us a message.",
+    "form_button_label": "Send Message",
+    "address_line1": "42 Brew Street",
+    "address_line2": "Chisinau, Moldova",
+    "hours_weekday": "Mon – Fri: 7:00 – 21:00",
+    "hours_weekend": "Sat – Sun: 8:00 – 22:00",
+    "email": "hello@coffeevarka.md",
+    "phone": "+373 781 22 171"
+  },
+  "mascot": {
+    "enabled": true,
+    "title": "Hey there!",
+    "message": "Try our Caramel Latte — it's today's special!"
+  },
+  "mobile_cta": {
+    "quick_order": {
+      "enabled": true,
+      "heading": "Order on the Go!",
+      "subheading": "Skip the line — order ahead and pick up your favorite brew.",
+      "button_label": "Quick Order",
+      "button_link": "#menu"
+    },
+    "download_app": {
+      "enabled": true,
+      "tagline": "Love Coffee Varka?",
+      "heading": "Get Our App",
+      "subheading": "Earn rewards, track orders, and never miss a deal.",
+      "button_label": "Download Now",
+      "button_link": "#"
+    },
+    "sticky_bar": {
+      "enabled": true,
+      "text": "Craving coffee?",
+      "button_label": "Order Now",
+      "button_link": "/#menu"
+    }
+  },
+  "social": {
+    "instagram": "https://www.instagram.com/coffeevarka_md/",
+    "facebook": "#",
+    "tiktok": "#"
+  }
 }

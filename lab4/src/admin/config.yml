@@ -46,10 +46,120 @@ collections:
   - name: "site"
     label: "Site Settings"
     files:
-      - label: "General Settings"
-        name: "settings"
+      - label: "General"
+        name: "general"
         file: "lab4/src/_data/site.json"
         fields:
           - { label: "Site Title", name: "title", widget: "string" }
-          - { label: "Description", name: "description", widget: "text" }
-          - { label: "Year", name: "year", widget: "string" }
+          - { label: "Description (meta)", name: "description", widget: "text" }
+          - { label: "Author (meta)", name: "author", widget: "string" }
+          - { label: "Year (footer)", name: "year", widget: "string" }
+          - { label: "Logo image", name: "logo", widget: "image" }
+          - label: "Navigation links"
+            name: "nav_links"
+            widget: "list"
+            summary: "{{fields.label}} → {{fields.href}}"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Href / anchor", name: "href", widget: "string" }
+          - label: "Theme colors"
+            name: "theme"
+            widget: "object"
+            fields:
+              - { label: "Accent color", name: "accent", widget: "color" }
+              - { label: "Accent hover color", name: "accent_hover", widget: "color" }
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Heading — line 1", name: "heading_line1", widget: "string" }
+              - { label: "Heading — line 2", name: "heading_line2", widget: "string" }
+              - { label: "Subheading", name: "subheading", widget: "text" }
+              - { label: "Primary button label", name: "primary_cta_label", widget: "string" }
+              - { label: "Primary button link", name: "primary_cta_link", widget: "string" }
+              - { label: "Secondary button label", name: "secondary_cta_label", widget: "string" }
+              - { label: "Secondary button link", name: "secondary_cta_link", widget: "string" }
+          - label: "About"
+            name: "about"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Paragraph 1", name: "paragraph1", widget: "text" }
+              - { label: "Paragraph 2", name: "paragraph2", widget: "text" }
+              - { label: "Image URL", name: "image", widget: "string" }
+              - { label: "Image alt text", name: "image_alt", widget: "string" }
+          - label: "Menu section"
+            name: "menu_section"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Subheading", name: "subheading", widget: "text" }
+          - label: "Testimonials section"
+            name: "testimonials_section"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+          - label: "Gallery section"
+            name: "gallery_section"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Subheading", name: "subheading", widget: "text" }
+          - label: "Contact"
+            name: "contact"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Subheading", name: "subheading", widget: "text" }
+              - { label: "Form button label", name: "form_button_label", widget: "string" }
+              - { label: "Address line 1", name: "address_line1", widget: "string" }
+              - { label: "Address line 2", name: "address_line2", widget: "string" }
+              - { label: "Hours — weekdays", name: "hours_weekday", widget: "string" }
+              - { label: "Hours — weekends", name: "hours_weekend", widget: "string" }
+              - { label: "Email", name: "email", widget: "string" }
+              - { label: "Phone", name: "phone", widget: "string" }
+          - label: "Mascot tooltip"
+            name: "mascot"
+            widget: "object"
+            fields:
+              - { label: "Show mascot", name: "enabled", widget: "boolean", default: true }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Message", name: "message", widget: "string" }
+          - label: "Mobile CTAs"
+            name: "mobile_cta"
+            widget: "object"
+            fields:
+              - label: "Quick Order banner"
+                name: "quick_order"
+                widget: "object"
+                fields:
+                  - { label: "Show", name: "enabled", widget: "boolean", default: true }
+                  - { label: "Heading", name: "heading", widget: "string" }
+                  - { label: "Subheading", name: "subheading", widget: "text" }
+                  - { label: "Button label", name: "button_label", widget: "string" }
+                  - { label: "Button link", name: "button_link", widget: "string" }
+              - label: "Download App banner"
+                name: "download_app"
+                widget: "object"
+                fields:
+                  - { label: "Show", name: "enabled", widget: "boolean", default: true }
+                  - { label: "Tagline", name: "tagline", widget: "string" }
+                  - { label: "Heading", name: "heading", widget: "string" }
+                  - { label: "Subheading", name: "subheading", widget: "text" }
+                  - { label: "Button label", name: "button_label", widget: "string" }
+                  - { label: "Button link", name: "button_link", widget: "string" }
+              - label: "Sticky bottom bar"
+                name: "sticky_bar"
+                widget: "object"
+                fields:
+                  - { label: "Show", name: "enabled", widget: "boolean", default: true }
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Button label", name: "button_label", widget: "string" }
+                  - { label: "Button link", name: "button_link", widget: "string" }
+          - label: "Social links"
+            name: "social"
+            widget: "object"
+            fields:
+              - { label: "Instagram URL", name: "instagram", widget: "string" }
+              - { label: "Facebook URL", name: "facebook", widget: "string" }
+              - { label: "TikTok URL", name: "tiktok", widget: "string" }
