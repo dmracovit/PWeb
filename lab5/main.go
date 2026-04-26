@@ -9,6 +9,7 @@ import (
 
 	"github.com/dmracovit/PWeb/lab5/internal/client"
 	"github.com/dmracovit/PWeb/lab5/internal/render"
+	"github.com/dmracovit/PWeb/lab5/internal/search"
 )
 
 const usage = `go2web — a tiny HTTP client over raw TCP sockets.
@@ -83,8 +84,20 @@ func runFetch(rawURL string, verbose, noCache bool) {
 }
 
 func runSearch(query string, verbose, noCache bool) {
-	// implemented in feature/lab5-search
-	fmt.Fprintln(os.Stderr, "search not implemented yet:", query)
+	results, err := search.Search(query, client.Options{Verbose: verbose})
+	if err != nil {
+		fail("search failed: " + err.Error())
+	}
+	if len(results) == 0 {
+		fail("no results")
+	}
+	for i, r := range results {
+		fmt.Printf("%d. %s\n   %s\n", i+1, r.Title, r.URL)
+		if r.Snippet != "" {
+			fmt.Printf("   %s\n", r.Snippet)
+		}
+		fmt.Println()
+	}
 }
 
 func fail(msg string) {
