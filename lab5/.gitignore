@@ -1,0 +1,4 @@
+go2web
+*.test
+*.out
+.go2web/
